@@ -111,21 +111,25 @@ vno <up> <Nop>
 "Copy and paste to system clipboard
 set clipboard=unnamed
 
-nmap <Leader>p "*p
-nmap <Leader>P "*P
-nmap <Leader>y "*y
-nmap <Leader>d "*d
+nmap <leader>p "*p
+nmap <leader>P "*P
+nmap <leader>y "*y
+nmap <leader>d "*d
 
-vmap <Leader>y "*y
-vmap <Leader>d "*d
-vmap <Leader>p "*p
-vmap <Leader>P "*P
+vmap <leader>y "*y
+vmap <leader>d "*d
+vmap <leader>p "*p
+vmap <leader>P "*P
 
 "Window switching
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+"Buffer switching
+nnoremap gn :bn<cr>
+nnoremap gp :bp<cr>
 
 "Bash like keys for the command line:
 cnoremap <C-A> <Home>
