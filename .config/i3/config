@@ -1,30 +1,53 @@
-#Constants
-set $mod Mod4
+#----------------------------------------
+# Constants
+#----------------------------------------
 
-set $workspace1 "1: &#xf120;"
-set $workspace2 "2: &#xf0ac;"
-set $workspace3 "3: &#xf121;"
-set $workspace4 "4: &#xf17a;"
-set $workspace5 "5: &#xf108;"
-set $workspace6 "6: &#xf108;"
-set $workspace7 "7: &#xf0e0;"
-set $workspace8 "8: &#xf086;"
-set $workspace9 "9: &#xf03d;"
-set $workspace10 "10: &#xf1bc;"
+    set $mod Mod4
 
-#########################################
+    set $workspace1 "1: &#xf120;"
+    set $workspace2 "2: &#xf0ac;"
+    set $workspace3 "3: &#xf121;"
+    set $workspace4 "4: &#xf17a;"
+    set $workspace5 "5: &#xf108;"
+    set $workspace6 "6: &#xf108;"
+    set $workspace7 "7: &#xf0e0;"
+    set $workspace8 "8: &#xf086;"
+    set $workspace9 "9: &#xf03d;"
+    set $workspace10 "10: &#xf1bc;"
+
+    set $base00 #181818
+    set $base01 #282828
+    set $base02 #383838
+    set $base03 #585858
+    set $base04 #b8b8b8
+    set $base05 #d8d8d8
+    set $base06 #e8e8e8
+    set $base07 #f8f8f8
+    set $base08 #ab4642
+    set $base09 #dc9656
+    set $base0A #f7ca88
+    set $base0B #a1b56c
+    set $base0C #86c1b9
+    set $base0D #7cafc2
+    set $base0E #ba8baf
+    set $base0F #a16946
+
+#----------------------------------------
 # General Config
-#########################################
+#----------------------------------------
+
     font pango:DejaVu Sans ExtraLight 9
     floating_modifier $mod
 # remove window title
-    new_window pixel 3
+    new_window pixel 2
 
 # start a terminal
     bindsym $mod+Return exec rxvt-unicode
 
 # start dmenu (a program launcher)
-    bindsym $mod+d exec dmenu_run -p "Run:" -l 5
+    #bindsym $mod+d exec dmenu_run -p "Run:" -l 5
+# start rofi
+    bindsym $mod+space exec rofi -show run -lines 8 -no-fixed-num-lines -width 35 -bw 4 -font "UbuntuMono-R 15" -separator-style solid -hide-scrollbar
 
 # reload the configuration file
     bindsym $mod+Shift+c reload
@@ -38,9 +61,9 @@ set $workspace10 "10: &#xf1bc;"
 # exit i3 (logs you out of your X session)
     bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-#########################################
+#----------------------------------------
 # Window-Related Keybindings
-#########################################
+#----------------------------------------
 
 #close current window
     bindsym $mod+Shift+q kill
@@ -87,43 +110,46 @@ set $workspace10 "10: &#xf1bc;"
     bindsym $mod+b split h
 
 # toggle tiling / floating
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Shift+t floating toggle
 
 # change focus between tiling / floating windows
-    bindsym $mod+space focus mode_toggle
+    bindsym $mod+t focus mode_toggle
 
 # focus the parent container
     bindsym $mod+a focus parent
 
+# focus the last focused child container
+    bindsym $mod+s focus child
+
 # resize window (you can also use the mouse for that)
     bindsym $mod+r mode "resize &#xf0b2;"
 
-mode "resize &#xf0b2;" {
+    mode "resize &#xf0b2;" {
 
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+            bindsym h resize shrink width 10 px or 10 ppt
+            bindsym j resize grow height 10 px or 10 ppt
+            bindsym k resize shrink height 10 px or 10 ppt
+            bindsym l resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+            # same bindings, but for the arrow keys
+            bindsym Left resize shrink width 10 px or 10 ppt
+            bindsym Down resize grow height 10 px or 10 ppt
+            bindsym Up resize shrink height 10 px or 10 ppt
+            bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+            # back to normal: Enter or Escape
+            bindsym Return mode "default"
+            bindsym Escape mode "default"
+    }
 
 # Window assignments
-    #assign [class="Firefox"] $workspace2
-    #assign [class="Thunderbird"] $workspace7
-    #assign [class="skypeforlinux"] $workspace8
+    assign [class="Firefox"] $workspace2
+    assign [class="Thunderbird"] $workspace7
+    assign [class="skypeforlinux"] $workspace8
 
-#########################################
+#----------------------------------------
 # Workspace-Related Keybindings
-#########################################
+#----------------------------------------
 
 # switch to workspace
     bindsym $mod+1 workspace $workspace1
@@ -150,11 +176,11 @@ mode "resize &#xf0b2;" {
     bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # move workspace to another display output
-    #bindsym $mod+m move workspace to output right
+    bindsym $mod+m move workspace to output right
 
-#########################################
+#----------------------------------------
 # Mutimedia Keybindings
-#########################################
+#----------------------------------------
 
 # Pulse Audio controls
     bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5% 
@@ -171,27 +197,49 @@ mode "resize &#xf0b2;" {
     bindsym XF86MonBrightnessUp exec xbacklight -inc 10
     bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
+#----------------------------------------
+# UI customization
+#----------------------------------------
+
+# window and workspace colors 
+    client.focused $base0D $base0D $base00 $base01
+    client.focused_inactive $base02 $base02 $base03 $base01
+    client.unfocused $base01 $base01 $base04 $base01
+    client.urgent $base02 $base08 $base07 $base08
+
+# i3blocks
+    bar 
+    {
         position top
         status_command i3blocks
         tray_output primary
-}
+        colors 
+        {
+            separator $base03
+            background $base01
+            statusline $base05
+            focused_workspace $base0C $base0D $base00
+            active_workspace $base02 $base02 $base07
+            inactive_workspace $base01 $base01 $base04
+            urgent_workspace $base08 $base08 $base07
+        }
+    }
 
 # Middle click trackpad
 #exec_always synclient TapButton3=2
 
+#----------------------------------------
 # Run at startup
-#exec_always feh --bg-scale .wallpaper.jpg
-#exec --no-startup-id xrandr --output HDMI2 --primary --auto --output VGA1 --auto --right-of HDMI2 # Dual monitor setup
-#workspace $workspace2 output VGA1
-#workspace $workspace4 output VGA1
-#exec --no-startup-id nm-applet
-#exec --no-startup-id skypeforlinux
-#exec --no-startup-id i3-msg 'workspace $workspace10; exec rxvt-unicode -e ncmpcpp; workspace $workspace1'
-#exec --no-startup-id i3-msg 'workspace $workspace3; exec rxvt-unicode -cd ~/Repository/svn/IND890SQC.local/trunk/src; workspace $workspace1'
-#exec --no-startup-id i3-msg 'workspace $workspace1; exec rxvt-unicode; exec rxvt-unicode; workspace $workspace1'
-#exec --no-startup-id firefox
-#exec --no-startup-id i3-msg 'workspace $workspace4; exec vmware; workspace $workspace1'
-#exec --no-startup-id thunderbird
+#----------------------------------------
+
+    exec_always feh --bg-scale .wallpaper.jpg
+    exec --no-startup-id xrandr --output HDMI2 --primary --auto --output VGA1 --auto --right-of HDMI2 # Dual monitor setup
+    workspace $workspace2 output VGA1
+    workspace $workspace4 output VGA1
+    exec --no-startup-id nm-applet
+    exec --no-startup-id skypeforlinux
+    exec --no-startup-id i3-msg 'workspace $workspace3; exec rxvt-unicode -cd ~/Repository/svn/IND890SQC.local/trunk/src; exec rxvt-unicode -e ncmpcpp; workspace $workspace1'
+    exec --no-startup-id i3-msg 'workspace $workspace1; exec rxvt-unicode; exec rxvt-unicode; workspace $workspace1'
+    exec --no-startup-id firefox
+    exec --no-startup-id i3-msg 'workspace $workspace4; exec vmware -W /mnt/STORAGE/Win7Prox86-VS2K8TS.vmwarevm/Win7Prox86-VS2K8TS.vmx &; exec vmware -W /mnt/STORAGE/MT/MT.vmx &; workspace $workspace1'
+    exec --no-startup-id thunderbird
