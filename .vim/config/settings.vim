@@ -36,6 +36,8 @@ set number
 set relativenumber
 set laststatus=2
 set guifont=Consolas:h10
+set splitbelow
+set splitright
 
 "------------------------------------
 " Indentation 

@@ -32,14 +32,27 @@ vmap <leader>p "*p
 vmap <leader>P "*P
 
 "Window switching
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+"nnoremap <C-H> <C-W><C-H>
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-L> <C-W><C-L>
+" used vim tmux navigator instead
+nnoremap <silent> <C-H> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-J> :TmuxNavigateDown<CR>
+nnoremap <silent> <C-K> :TmuxNavigateUp<CR>
+nnoremap <silent> <C-L> :TmuxNavigateRight<CR>
+
+"Window splits
+nnoremap _ :sp<CR>
+nnoremap <bar> :vsp<CR>
+
+"saving and closing
+nmap <C-S> :w!<CR>
+nnoremap Q :q<CR>
 
 "Buffer switching
-nnoremap gn :bn<cr>
-nnoremap gp :bp<cr>
+nnoremap gn :bn<CR>
+nnoremap gp :bp<CR>
 
 "Bash like keys for the command line:
 cnoremap <C-A> <Home>
