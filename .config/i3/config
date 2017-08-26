@@ -3,6 +3,8 @@
 #----------------------------------------
 
     set $mod Mod4
+    set $sink alsa_output.pci-0000_00_1b.0.analog-stereo
+    set $kbd /sys/class/leds/smc\:\:kbd_backlight/brightness
 
     set $workspace1 "1: &#xf120;"
     set $workspace2 "2: &#xf0ac;"
@@ -38,6 +40,7 @@
 
     font pango:DejaVu Sans ExtraLight 9
     floating_modifier $mod
+
 # remove window title
     new_window pixel 2
 
@@ -143,9 +146,12 @@
     }
 
 # Window assignments
-    assign [class="Firefox"] $workspace2
-    assign [class="Thunderbird"] $workspace7
-    assign [class="skypeforlinux"] $workspace8
+    for_window [class="Firefox"] move to workspace $workspace2
+    for_window [class="Thunderbird"] move to workspace $workspace7
+    for_window [class="skypeforlinux"] move to workspace $workspace8
+    for_window [class="ViberPC"] move to workspace $workspace8
+    for_window [class="Telegram"] move to workspace $workspace8
+    for_window [class="Spotify"] move to workspace $workspace10
 
 #----------------------------------------
 # Workspace-Related Keybindings
@@ -176,16 +182,16 @@
     bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # move workspace to another display output
-    bindsym $mod+m move workspace to output right
+    #bindsym $mod+m move workspace to output right
 
 #----------------------------------------
 # Mutimedia Keybindings
 #----------------------------------------
 
 # Pulse Audio controls
-    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5% 
-    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5%
-    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $sink -5% 
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $sink +5%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $sink toggle
 
 # Media Player brightness
     bindsym XF86AudioPlay exec playerctl play-pause
@@ -197,9 +203,19 @@
     bindsym XF86MonBrightnessUp exec xbacklight -inc 10
     bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
+# Keyboard Brightness controls
+    bindsym XF86KbdBrightnessUp exec echo $((`cat $kbd` + 17)) | sudo tee $kbd
+    bindsym XF86KbdBrightnessDown exec echo $((`cat $kbd` - 17)) | sudo tee $kbd
+
 #----------------------------------------
 # UI customization
 #----------------------------------------
+
+# i3 gaps
+    gaps inner 10
+    gaps outer 5
+    smart_gaps on
+    smart_borders on
 
 # window and workspace colors 
     client.focused $base0D $base0D $base00 $base01
@@ -226,20 +242,14 @@
     }
 
 # Middle click trackpad
-#exec_always synclient TapButton3=2
+    exec_always synclient TapButton3=2
 
 #----------------------------------------
 # Run at startup
 #----------------------------------------
 
-    exec_always feh --bg-scale .wallpaper.jpg
-    exec --no-startup-id xrandr --output HDMI2 --primary --auto --output VGA1 --auto --right-of HDMI2 # Dual monitor setup
-    workspace $workspace2 output VGA1
-    workspace $workspace4 output VGA1
+    exec_always feh --bg-scale .wallpaper.png
+    exec_always compton -b
+    exec --no-startup-id xrandr --output eDP1 --primary --auto
+    exec --no-startup-id parcellite
     exec --no-startup-id nm-applet
-    exec --no-startup-id skypeforlinux
-    exec --no-startup-id i3-msg 'workspace $workspace3; exec rxvt-unicode -cd ~/Repository/svn/IND890SQC.local/trunk/src; exec rxvt-unicode -e ncmpcpp; workspace $workspace1'
-    exec --no-startup-id i3-msg 'workspace $workspace1; exec rxvt-unicode; exec rxvt-unicode; workspace $workspace1'
-    exec --no-startup-id firefox
-    exec --no-startup-id i3-msg 'workspace $workspace4; exec vmware -W /mnt/STORAGE/Win7Prox86-VS2K8TS.vmwarevm/Win7Prox86-VS2K8TS.vmx &; exec vmware -W /mnt/STORAGE/MT/MT.vmx &; workspace $workspace1'
-    exec --no-startup-id thunderbird
